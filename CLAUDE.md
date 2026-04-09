@@ -121,10 +121,10 @@ Integration tests live in `test/` and use `@testcontainers/mongodb` to spin up a
 
 Run integration tests:
 ```bash
-npm run test:integration
+pnpm run test:integration
 ```
 
-Both unit tests (`npm test`) and integration tests (`npm run test:integration`) run in CI.
+Both unit tests (`pnpm test`) and integration tests (`pnpm run test:integration`) run in CI.
 
 ---
 

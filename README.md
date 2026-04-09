@@ -85,7 +85,7 @@ MONGO_URI=mongodb://localhost:27017
 This bypasses the Atlas connection string construction. Leave `MONGO_URI` unset in production and provide the individual Atlas vars instead.
 
 ```bash
-npm run start:dev
+pnpm run start:dev
 ```
 
 ---
@@ -96,10 +96,10 @@ Integration tests use testcontainers to spin up a real MongoDB instance — no m
 
 ```bash
 # Unit tests
-npm test
+pnpm test
 
 # Integration tests (requires Docker)
-npm run test:integration
+pnpm run test:integration
 ```
 
 Both run in CI on every push.
