@@ -23,6 +23,7 @@ export class UpdateExampleArgs {
 }
 
 @ObjectType()
+@Directive('@shareable')
 export class DeleteResult {
   acknowledged: boolean;
   deletedCount: number;

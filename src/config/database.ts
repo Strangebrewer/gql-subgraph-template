@@ -9,7 +9,7 @@ export type DatabaseConfig = {
   };
 };
 
-const databaseConfig: DatabaseConfig = {
+export default (): DatabaseConfig => ({
   uri: process.env.MONGO_URI || undefined,
   username: process.env.DB_USERNAME || '',
   password: process.env.DB_PASSWORD || '',
@@ -18,6 +18,4 @@ const databaseConfig: DatabaseConfig = {
   collections: {
     example: process.env.EXAMPLE_COLLECTION || 'example',
   },
-};
-
-export default databaseConfig;
+});

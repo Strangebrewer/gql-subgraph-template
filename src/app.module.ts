@@ -10,6 +10,7 @@ import { ExampleModule } from './app/example/example.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: '.env.local',
       isGlobal: true,
       load: [configuration],
     }),
