@@ -4,6 +4,7 @@ import { IdGeneratorService } from '../../shared/libs/id-generator/id-generator.
 import { ExampleEntity } from './example.entity';
 import { CreateExampleArgs, DeleteResult, Example, UpdateExampleArgs } from './example.model';
 import { ExampleRepository } from './example.repository';
+import { NotFoundError } from '../../common/errors';
 
 @Injectable()
 export class ExampleService {
@@ -14,11 +15,7 @@ export class ExampleService {
 
   async findById(id: string): Promise<Example> {
     const record = await this.exampleRepository.findById(id);
-    if (!record) {
-      throw new GraphQLError('Example not found', {
-        extensions: { code: 404 },
-      });
-    }
+    if (!record) throw new NotFoundError('Example');
     return mapToModel(record);
   }
 
@@ -39,11 +36,7 @@ export class ExampleService {
 
   async update(id: string, args: UpdateExampleArgs): Promise<Example> {
     const record = await this.exampleRepository.findOneAndUpdate(id, args);
-    if (!record) {
-      throw new GraphQLError('Example not found', {
-        extensions: { code: 404 },
-      });
-    }
+    if (!record) throw new NotFoundError('Example');
     return mapToModel(record);
   }
 

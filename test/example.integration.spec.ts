@@ -13,7 +13,7 @@ describe('Example (integration)', () => {
   let service: ExampleService;
 
   beforeAll(async () => {
-    container = await new MongoDBContainer().start();
+    container = await new MongoDBContainer('mongo:6').start();
     client = await MongoClient.connect(container.getConnectionString(), { directConnection: true });
     db = client.db('test');
 
