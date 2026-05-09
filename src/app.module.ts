@@ -16,9 +16,8 @@ import { ExampleModule } from './app/example/example.module';
     }),
     LoggerModule.forRoot({
       pinoHttp: {
-        transport: process.env.NODE_ENV !== 'production'
-          ? { target: 'pino-pretty' }
-          : undefined,
+        autoLogging: false,
+        transport: process.env.NODE_ENV !== 'production' ? { target: 'pino-pretty' } : undefined,
       },
     }),
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
