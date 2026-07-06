@@ -56,44 +56,52 @@ test/
 
 Each domain follows a six-file pattern. Using `example/` as reference:
 
-| File | Purpose |
-|---|---|
-| `example.entity.ts` | TypeScript types for MongoDB documents (`ExampleEntity`, `ExampleEntityRead`) |
-| `example.factory.ts` | Collection injection token + NestJS factory provider |
-| `example.model.ts` | GraphQL `@ObjectType` and `@ArgsType` classes |
-| `example.module.ts` | Wires domain providers; imports `SharedModule` |
-| `example.repository.ts` | MongoDB CRUD operations |
-| `example.resolver.ts` | GraphQL queries and mutations |
-| `example.service.ts` | Business logic; maps entities to models |
+| File                    | Purpose                                                                       |
+| ----------------------- | ----------------------------------------------------------------------------- |
+| `example.entity.ts`     | TypeScript types for MongoDB documents (`ExampleEntity`, `ExampleEntityRead`) |
+| `example.factory.ts`    | Collection injection token + NestJS factory provider                          |
+| `example.model.ts`      | GraphQL `@ObjectType` and `@ArgsType` classes                                 |
+| `example.module.ts`     | Wires domain providers; imports `SharedModule`                                |
+| `example.repository.ts` | MongoDB CRUD operations                                                       |
+| `example.resolver.ts`   | GraphQL queries and mutations                                                 |
+| `example.service.ts`    | Business logic; maps entities to models                                       |
 
 ---
 
 ## Key Patterns
 
 ### MongoDB Connection
+
 `MongoModule` provides a `DB_CLIENT` token (a `mongodb.Db` instance). Domain collection factories inject it to get their specific collection.
 
 For local dev, set `MONGO_URI` in `.env.local` to bypass Atlas URI construction:
+
 ```
 MONGO_URI=mongodb://localhost:27017
 ```
+
 In production, leave `MONGO_URI` unset and provide the individual Atlas vars (`DB_USERNAME`, `DB_PASSWORD`, `DB_CLUSTER`, `DB_NAME`).
 
 ### JWT Auth
+
 `JwtModule` is registered in `SharedModule` with the RS256 public key from `JWT_PUBLIC_KEY`. Any domain module that imports `SharedModule` can use `@UseGuards(JwtAccessGuard)` on resolvers. The `@JwtUserId()` param decorator extracts the user ID from the verified token.
 
 `JwtAccessGuard` throws `UnauthorizedException` — never returns false.
 
 ### ID Generation
+
 `IdGeneratorService.generate(prefix)` returns `${prefix}-${uuidv4()}`. The prefix identifies the document type (e.g. `VHL-`, `RCP-`). Available in any module that imports `SharedModule`.
 
 ### GraphQL Schema
+
 `@Field()` decorators are not required on model classes — the `@nestjs/graphql` CLI plugin (configured in `nest-cli.json`) infers them automatically from files matching `.model.ts`.
 
 ### Exception Handling
+
 `GqlExceptionFilter` is registered globally in `main.ts`. It normalizes all errors to `GraphQLError` with a numeric `code` extension. `HttpException` subclasses (like `UnauthorizedException`) are mapped using their HTTP status code.
 
 ### Logging
+
 `nestjs-pino` writes structured JSON to stdout in production. In non-production environments, `pino-pretty` is used for readable output. Cloud Run ingests stdout automatically into Cloud Logging.
 
 ---
@@ -108,9 +116,10 @@ Config is split across two files and combined in `configuration.ts`:
 When adding a new domain, add its collection name to the `collections` object in `database.ts` and add the corresponding env var to `.env.example`.
 
 Access config via `ConfigService`:
+
 ```typescript
-configService.get<DatabaseConfig>('database').collections.myDomain
-configService.get<AppConfig>('app').jwtPublicKey
+configService.get<DatabaseConfig>('database').collections.myDomain;
+configService.get<AppConfig>('app').jwtPublicKey;
 ```
 
 ---
@@ -120,6 +129,7 @@ configService.get<AppConfig>('app').jwtPublicKey
 Integration tests live in `test/` and use `@testcontainers/mongodb` to spin up a real MongoDB instance. They bypass the NestJS module system entirely — wiring up only the providers under test with the real DB injected directly.
 
 Run integration tests:
+
 ```bash
 pnpm run test:integration
 ```
@@ -142,14 +152,14 @@ Both unit tests (`pnpm test`) and integration tests (`pnpm run test:integration`
 
 ## Environment Variables
 
-| Variable | Required | Description |
-|---|---|---|
-| `PORT` | No | HTTP port (default: 4000) |
-| `MONGO_URI` | Local dev | Full MongoDB connection string — bypasses Atlas vars |
-| `DB_USERNAME` | Production | MongoDB Atlas username |
-| `DB_PASSWORD` | Production | MongoDB Atlas password |
-| `DB_CLUSTER` | Production | MongoDB Atlas cluster identifier |
-| `DB_NAME` | Yes | MongoDB database name |
-| `JWT_PUBLIC_KEY` | Yes | RSA public key PEM for verifying JWTs |
+| Variable         | Required   | Description                                          |
+| ---------------- | ---------- | ---------------------------------------------------- |
+| `PORT`           | No         | HTTP port (default: 4000)                            |
+| `MONGO_URI`      | Local dev  | Full MongoDB connection string — bypasses Atlas vars |
+| `DB_USERNAME`    | Production | MongoDB Atlas username                               |
+| `DB_PASSWORD`    | Production | MongoDB Atlas password                               |
+| `DB_CLUSTER`     | Production | MongoDB Atlas cluster identifier                     |
+| `DB_NAME`        | Yes        | MongoDB database name                                |
+| `JWT_PUBLIC_KEY` | Yes        | RSA public key PEM for verifying JWTs                |
 
 Copy `.env.example` to `.env.local` for local dev. Never commit `.env.local`.

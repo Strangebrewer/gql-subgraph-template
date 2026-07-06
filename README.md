@@ -79,9 +79,11 @@ The `example/` domain is intentionally left in place as a reference until it's n
 Copy `.env.example` to `.env.local` and fill in the values.
 
 For local MongoDB (via docker-compose in `infra/`), set:
+
 ```
 MONGO_URI=mongodb://localhost:27017
 ```
+
 This bypasses the Atlas connection string construction. Leave `MONGO_URI` unset in production and provide the individual Atlas vars instead.
 
 ```bash
@@ -108,14 +110,14 @@ Both run in CI on every push.
 
 ## Environment Variables
 
-| Variable | Required | Description |
-|---|---|---|
-| `PORT` | No | HTTP port (default: 4000) |
-| `MONGO_URI` | Local dev | Full connection string — bypasses Atlas vars |
-| `DB_USERNAME` | Production | MongoDB Atlas username |
-| `DB_PASSWORD` | Production | MongoDB Atlas password |
-| `DB_CLUSTER` | Production | MongoDB Atlas cluster identifier |
-| `DB_NAME` | Yes | MongoDB database name |
-| `JWT_PUBLIC_KEY` | Yes | RSA public key PEM for verifying access tokens |
+| Variable         | Required   | Description                                    |
+| ---------------- | ---------- | ---------------------------------------------- |
+| `PORT`           | No         | HTTP port (default: 4000)                      |
+| `MONGO_URI`      | Local dev  | Full connection string — bypasses Atlas vars   |
+| `DB_USERNAME`    | Production | MongoDB Atlas username                         |
+| `DB_PASSWORD`    | Production | MongoDB Atlas password                         |
+| `DB_CLUSTER`     | Production | MongoDB Atlas cluster identifier               |
+| `DB_NAME`        | Yes        | MongoDB database name                          |
+| `JWT_PUBLIC_KEY` | Yes        | RSA public key PEM for verifying access tokens |
 
 The app validates required environment variables at startup and exits with a clear error message if any are missing.

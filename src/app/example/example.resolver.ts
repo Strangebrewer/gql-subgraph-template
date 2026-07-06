@@ -10,17 +10,13 @@ export class ExampleResolver {
 
   @Query(() => Example)
   @UseGuards(JwtAccessGuard)
-  async getExample(
-    @Args('id') id: string,
-  ): Promise<Example> {
+  async getExample(@Args('id') id: string): Promise<Example> {
     return this.exampleService.findById(id);
   }
 
   @Query(() => [Example])
   @UseGuards(JwtAccessGuard)
-  async getExamples(
-    @JwtUserId() userId: string,
-  ): Promise<Example[]> {
+  async getExamples(@JwtUserId() userId: string): Promise<Example[]> {
     return this.exampleService.find(userId);
   }
 
@@ -35,18 +31,13 @@ export class ExampleResolver {
 
   @Mutation(() => Example)
   @UseGuards(JwtAccessGuard)
-  async updateExample(
-    @Args('id') id: string,
-    @Args() args: UpdateExampleArgs,
-  ): Promise<Example> {
+  async updateExample(@Args('id') id: string, @Args() args: UpdateExampleArgs): Promise<Example> {
     return this.exampleService.update(id, args);
   }
 
   @Mutation(() => DeleteResult)
   @UseGuards(JwtAccessGuard)
-  async deleteExample(
-    @Args('id') id: string,
-  ): Promise<DeleteResult> {
+  async deleteExample(@Args('id') id: string): Promise<DeleteResult> {
     return this.exampleService.delete(id);
   }
 }

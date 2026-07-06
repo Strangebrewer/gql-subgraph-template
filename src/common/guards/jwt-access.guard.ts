@@ -1,4 +1,10 @@
-import { CanActivate, createParamDecorator, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  CanActivate,
+  createParamDecorator,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
@@ -29,9 +35,7 @@ export class JwtAccessGuard implements CanActivate {
   }
 }
 
-export const JwtUserId = createParamDecorator(
-  (_data: unknown, ctx: ExecutionContext) => {
-    const request = GqlExecutionContext.create(ctx).getContext().req;
-    return request.userId;
-  },
-);
+export const JwtUserId = createParamDecorator((_data: unknown, ctx: ExecutionContext) => {
+  const request = GqlExecutionContext.create(ctx).getContext().req;
+  return request.userId;
+});

@@ -21,7 +21,15 @@ import { ExampleModule } from './app/example/example.module';
         stream: {
           write(msg: string) {
             const entry = JSON.parse(msg);
-            const internal = ['InstanceLoader', 'NestFactory', 'RouterExplorer', 'RoutesResolver', 'NestApplication', 'GraphQLModule', 'AppModule'];
+            const internal = [
+              'InstanceLoader',
+              'NestFactory',
+              'RouterExplorer',
+              'RoutesResolver',
+              'NestApplication',
+              'GraphQLModule',
+              'AppModule',
+            ];
             if (internal.includes(entry.context)) return;
             process.stdout.write(msg);
           },

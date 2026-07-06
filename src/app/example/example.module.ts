@@ -7,11 +7,6 @@ import { ExampleService } from './example.service';
 
 @Module({
   imports: [SharedModule],
-  providers: [
-    ExampleCollectionFactory,
-    ExampleRepository,
-    ExampleResolver,
-    ExampleService,
-  ],
+  providers: [ExampleCollectionFactory, ExampleRepository, ExampleResolver, ExampleService],
 })
 export class ExampleModule {}

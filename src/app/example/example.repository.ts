@@ -12,7 +12,10 @@ export class ExampleRepository {
     private readonly collection: Collection<ExampleEntityRead>,
   ) {}
 
-  async findOne(filter: Filter<ExampleEntityRead>, options?: FindOptions): Promise<ExampleEntityRead> {
+  async findOne(
+    filter: Filter<ExampleEntityRead>,
+    options?: FindOptions,
+  ): Promise<ExampleEntityRead> {
     return this.collection.findOne(filter, options);
   }
 
@@ -20,7 +23,10 @@ export class ExampleRepository {
     return this.collection.findOne({ [this.primaryKey]: id } as Filter<ExampleEntityRead>, options);
   }
 
-  async find(filter: Filter<ExampleEntityRead>, options?: FindOptions): Promise<ExampleEntityRead[]> {
+  async find(
+    filter: Filter<ExampleEntityRead>,
+    options?: FindOptions,
+  ): Promise<ExampleEntityRead[]> {
     return this.collection.find(filter, options).toArray();
   }
 
@@ -29,7 +35,10 @@ export class ExampleRepository {
     return { _id: result.insertedId.toString(), ...entity };
   }
 
-  async findOneAndUpdate(id: string, fields: UpdateFilter<ExampleEntity>): Promise<ExampleEntityRead> {
+  async findOneAndUpdate(
+    id: string,
+    fields: UpdateFilter<ExampleEntity>,
+  ): Promise<ExampleEntityRead> {
     return this.collection.findOneAndUpdate(
       { [this.primaryKey]: id } as Filter<ExampleEntityRead>,
       { $set: fields },
